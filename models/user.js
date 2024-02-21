@@ -1,14 +1,12 @@
-require('dotenv') = require('mongoose')
+require('dotenv').config()
+const mongoose = require('mongoose') 
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const { model, Schema } = require('mongoose')
-
-
-const userSchema = new Schema ({
-    name: { required: true, type: String },
-    email: { required: true, type: String },
-    password: { required: true, type: String },
+const userSchema = new mongoose.Schema ({
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    password: { type: String, required: true },
     blogs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Blog' }]
 }, {
     timestamps: true
@@ -26,6 +24,6 @@ userSchema.methods.generateAuthToken = async function(){
     return token
 }
 
-const User = model('User',  userSchema)
+const User = mongoose.model('User', userSchema)
 
 module.exports = User

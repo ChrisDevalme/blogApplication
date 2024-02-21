@@ -1,49 +1,50 @@
-require('dotenv').config
+require('dotenv').config()
 const User = require('../../models/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const crypto = require('crypto')
+const crypto = require('crypto') 
 
-
-exports.auth = async (req, res, next) => {
+const auth = async (req, res, next) => {
     try {
-        const token = req.header('Authorization').replace('Bearer', '')
+        const token = req.header('Authorization').replace('Bearer ', '')
         const data = jwt.verify(token, process.env.SECRET)
         const user = await User.findOne({ _id: data._id })
-        if(!user) throw new Error ('Bad Credentials')
-        req.user = user
+        if(!user) throw new Error ('bad credentials')
+        req.user = user 
         next()
     } catch (error) {
-        res.status(400).message({ message: error.message })
+        res.status(400).json({ msg: error.message })
     }
 }
 
-const createUser = async (req, res , next) => {
+// router.post('/', userCtrl.createUser)
+
+const createUser = async (req, res, next) => {
     try {
         const user = await User.create(req.body)
-        const token = createJWT(user)
-        res.locals.data.user = user
-        res.locals.data.token = token
+        const token = await user.generateAuthToken()
+        res.json({ user, token })
         next()
     } catch (error) {
-        res.status(400).json({ message: error.message })
+        res.status(400).json({ msg: error.message })
     }
 }
 
-const loginUser = async (req, res, next) => {
-    try {
-        const user = await User.findOne({ email: req.body.email })
-    if(!user) throw new Error ('User not found, email invalid')
-    const password = crypto.createHmac('sha256', process.env.SECRET).update(req.body.password).digest('hex').split('').reverse().join('')
-    const match = await bcrypt.compare(password, user.password)
-    if(!match) throw new Error('Password Invalid')
-    res.locals.data.user = user
-    res.locals.data.token = createJWT(user)
-    next()
-    } catch (error) {
-        res.status(400).json({ message: error.message })
+
+ const loginUser = async (req, res) => {
+    try{
+      const user = await User.findOne({ email: req.body.email })
+      if (!user || !await bcrypt.compare(req.body.password, user.password)) {
+        res.status(400).send('Invalid login credentials')
+      } else {
+        const token = await user.generateAuthToken()
+        res.json({ user, token })
+      }
+    } catch(error){
+      res.status(400).json({message: error.message})
     }
-}
+  }
+
 
 const updateUser = async (req, res, next) => {
     try {
@@ -51,39 +52,32 @@ const updateUser = async (req, res, next) => {
         const user = await User.findOne({ _id: req.params.id})
         updates.forEach(update => user[update] = req.body[update])
         await user.save()
-        //problem maybe w/ update
-        res.locals.data.user = user 
+        res.json(user)
+        next()
     } catch (error) {
         res.status(400).json({ msg: error.message })
     }
 }
 
-const deleteUser = async (req, res, next) => {
+
+const deleteUser = async (req, res) => {
     try {
         await req.user.deleteOne()
+        res.json({ msg: 'user deleted' })
     } catch (error) {
         res.status(400).json({ msg: error.message })
     }
 }
 
-const respondWithToken = (req, res) => {
-    res.json(res.locals.data.token)
-}
-
-const respondWithUser = (req, res) => {
-    res.json(res.locals.data.user)
-}
 
 module.exports = {
     auth, 
     createUser,
     loginUser,
     updateUser,
-    deleteUser,
-    respondWithToken,
-    respondWithUser
+    deleteUser
 }
 
-function createJwt(user) {
-    return jwt.sign({ user }, process.env.SECRET, { expires: '48h'})
+function createJWT(user){
+    return jwt.sign({ user }, process.env.SECRET, { expiresIn: '48h' })
 }

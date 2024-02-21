@@ -14,4 +14,4 @@ router.put('/:id', userCtrl.auth, blogsCtrl.updateBlog)
 
 router.delete('/', userCtrl.auth, blogsCtrl.deleteBlog)
 
-module.exports = routes
+module.exports = router

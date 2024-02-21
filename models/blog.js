@@ -1,14 +1,14 @@
-const { model, Schema, default: mongoose } = require('mongoose')
+const { model, Schema } = require('mongoose')
 
 
-const blogSchema = new Schema ({
-    title: { required: true, type: String },
-    body: { required: true, type: String },
-    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
+const blogSchema = new Schema ({ 
+    title: { type: String, required: true },
+    body: { type: String, required: true }, 
+    comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }]
 }, {
-    timestamps: true
+    timestanps: true
 })
 
 const Blog = model('Blog', blogSchema)
 
-module.exports = Blog
+module.exports = Blog 

@@ -16,115 +16,11 @@
 /* harmony import */ var _components_TodoList_TodoList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/TodoList/TodoList */ "./src/components/TodoList/TodoList.js");
 /* harmony import */ var _App_module_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App.module.scss */ "./src/App.module.scss");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : String(i); }
-function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
 
 function App() {
-  const [todos, setTodos] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-  const [completedTodos, setCompletedTodos] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-  const [newTodo, setNewTodo] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
-    title: '',
-    completed: false
-  });
-
-  //createTodos
-  const createTodo = async () => {
-    const body = _objectSpread({}, newTodo);
-    try {
-      const response = await fetch('/api/todos', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-      });
-      const createdTodo = await response.json();
-      const todosCopy = [createdTodo, ...todos];
-      setTodos(todosCopy);
-      setNewTodo({
-        title: '',
-        completed: false
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  //deleteTodos
-  const deleteTodo = async id => {
-    try {
-      const index = completedTodos.findIndex(todo => todo._id === id);
-      const completedTodosCopy = [...completedTodos];
-      const response = await fetch("/api/todos/".concat(id), {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      await response.json();
-      completedTodosCopy.splice(index, 1);
-      setCompletedTodos(completedTodosCopy);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  //moveToCompleted
-  const moveToCompleted = async id => {
-    try {
-      const index = todos.findIndex(todo => todo._id === id);
-      const todosCopy = [...todos];
-      const subject = todosCopy[index];
-      subject.completed = true;
-      const response = await fetch("/api/todos/".concat(id), {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(subject)
-      });
-      const updatedTodo = await response.json();
-      const completedTDsCopy = [updatedTodo, ...completedTodos];
-      setCompletedTodos(completedTDsCopy);
-      todosCopy.splice(index, 1);
-      setTodos(todosCopy);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  //getTodos
-  const getTodos = async () => {
-    try {
-      const response = await fetch('/api/todos');
-      const foundTodos = await response.json();
-      setTodos(foundTodos.reverse());
-      console.log('hey');
-      const responseTwo = await fetch('/api/todos/completed');
-      const foundCompletedTodos = await responseTwo.json();
-      setCompletedTodos(foundCompletedTodos.reverse());
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    getTodos();
-  }, []);
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    className: _App_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].banner
-  }, /*#__PURE__*/React.createElement("h1", null, "The World Famous Big Poppa Code React Starter Kit"), /*#__PURE__*/React.createElement("img", {
-    src: "https://i.imgur.com/5WXigZL.jpg"
-  })), /*#__PURE__*/React.createElement(_components_TodoList_TodoList__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    newTodo: newTodo,
-    setNewTodo: setNewTodo,
-    createTodo: createTodo,
-    todos: todos,
-    moveToCompleted: moveToCompleted,
-    completedTodos: completedTodos,
-    deleteTodo: deleteTodo
-  }));
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", null));
 }
 
 /***/ }),
@@ -163,9 +59,7 @@ function Todo(_ref) {
   \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ TodoList)
-/* harmony export */ });
+/* unused harmony export default */
 /* harmony import */ var _TodoList_module_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TodoList.module.scss */ "./src/components/TodoList/TodoList.module.scss");
 /* harmony import */ var _Todo_Todo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Todo/Todo */ "./src/components/Todo/Todo.js");
 /* provided dependency */ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
@@ -385,11 +279,8 @@ ___CSS_LOADER_EXPORT___.locals = {
 /*!*****************************!*\
   !*** ./src/App.module.scss ***!
   \*****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
@@ -429,7 +320,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_App_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_App_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_App_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+       /* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_App_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_App_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_2_use_1_node_modules_sass_loader_dist_cjs_js_node_modules_postcss_loader_dist_cjs_js_App_module_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
 
 
 /***/ }),
@@ -711,4 +602,4 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 /******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=App.5f79c6bcb1af4eb149e6f628e4f1a2e1.js.map
+//# sourceMappingURL=App.a1c584df85213c2c17f23af73d225675.js.map

@@ -1,11 +1,11 @@
 const { model, Schema } = require('mongoose')
 
-const commentSchema = new Schema({
-    name: { type: String, required: true },
+const commentSchema = new Schema ({ 
+    title: { type: String, required: true },
     message: { type: String, required: true },
-    blog: { type: mongoose.Schema.Types, ref: 'Blog' }
+    blog: { type: mongoose.Schema.Types. ObjectId, ref: 'Blog' }
 }, {
-    timestamps: true
+    timestanps: true
 })
 
 const Comment = model('Comment', commentSchema)

@@ -1,5 +1,5 @@
 const express = require('express')
-const router = express.Router
+const router = express.Router()
 const userCtrl = require('../../controllers/api/user')
 
 
@@ -9,6 +9,6 @@ router.post('/login', userCtrl.loginUser)
 
 router.put('/:id', userCtrl.auth, userCtrl.updateUser)
 
-router.post('/:id', userCtrl.auth, userCtrl.deleteUser)
+router.delete('/:id', userCtrl.auth, userCtrl.deleteUser)
 
 module.exports = router
