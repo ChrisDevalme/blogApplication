@@ -1,14 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const userCtrl = require('../../controllers/api/user')
+const userController = require('../../controllers/api/user')
 
-
-router.post('/', userCtrl.createUser)
-
-router.post('/login', userCtrl.loginUser)
-
-router.put('/:id', userCtrl.auth, userCtrl.updateUser)
-
-router.delete('/:id', userCtrl.auth, userCtrl.deleteUser)
+router.post('/', userController.createUser)
+router.post('/login', userController.loginUser)// /api/users/login
+router.put('/:id', userController.updateUser)
+router.delete('/:id', userController.auth, userController.deleteUser)
 
 module.exports = router
